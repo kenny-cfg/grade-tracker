@@ -10,13 +10,24 @@ app.get('/student', async (req, res) => {
   res.json(rows);
 })
 
+app.get('/student/:id', async (req, res) => {
+  const id = req.params.id;
+  const [students] = await pool.query('SELECT * FROM students WHERE id = ?', id)
+  const student = students[0];
+  const [grades] = await pool.query('SELECT score FROM grade WHERE student_id = ?', id);
+  res.json({
+    id: id,
+    name: student.name,
+    grades: grades.map(it => it.score)
+  })
+})
+
 app.post('/student', async (req, res) => {
   const name = req.body.name;
   const [rows] = await pool.query(
     'INSERT INTO students (name) VALUES (?)',
     name
   );
-  console.log(rows.insertId);
   res.json({
     id: rows.insertId,
     name: name
