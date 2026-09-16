@@ -1,0 +1,16 @@
+DROP DATABASE IF EXISTS student;
+CREATE DATABASE student;
+
+USE student;
+
+CREATE TABLE students (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+CREATE TABLE grade (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  score INT NOT NULL,
+  student_id INT NOT NULL,
+  FOREIGN KEY (student_id) REFERENCES students(id)
+);
