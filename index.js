@@ -11,9 +11,16 @@ app.get('/student', async (req, res) => {
 })
 
 app.post('/student', async (req, res) => {
-  const payload = req.body;
-  await pool.query('INSERT INTO students (name) VALUES (?)', payload.name)
-  res.send('OK')
+  const name = req.body.name;
+  const [rows] = await pool.query(
+    'INSERT INTO students (name) VALUES (?)',
+    name
+  );
+  console.log(rows.insertId);
+  res.json({
+    id: rows.insertId,
+    name: name
+  });
 })
 
 app.listen(port, () => {
