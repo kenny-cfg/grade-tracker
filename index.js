@@ -23,6 +23,13 @@ app.post('/student', async (req, res) => {
   });
 })
 
+app.post('/student/grade', async (req, res) => {
+  const id = req.body.id;
+  const grades = req.body.grades;
+  console.log(id, grades);
+  res.send('OK');
+})
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 })
