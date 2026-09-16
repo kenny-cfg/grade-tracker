@@ -26,8 +26,13 @@ app.post('/student', async (req, res) => {
 app.post('/student/grade', async (req, res) => {
   const id = req.body.id;
   const grades = req.body.grades;
-  console.log(id, grades);
-  res.send('OK');
+  for (const grade of grades) {
+    await pool.query(
+      'INSERT INTO grade (student_id, score) VALUES (?, ?)',
+      [id, grade]
+    )
+  }
+  res.status(201).send();
 })
 
 app.listen(port, () => {
